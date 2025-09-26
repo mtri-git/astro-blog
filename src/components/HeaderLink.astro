@@ -9,16 +9,21 @@ const subpath = pathname.match(/[^\/]+/g);
 const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a 
+	href={href} 
+	class:list={[
+		"relative px-4 py-2 font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 group",
+		className,
+		{ 
+			"text-blue-600 font-semibold": isActive 
+		}
+	]} 
+	{...props}
+>
 	<slot />
+	<!-- Active indicator -->
+	<span class:list={[
+		"absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform transition-transform duration-200",
+		isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+	]}></span>
 </a>
-<style>
-	a {
-		display: inline-block;
-		text-decoration: none;
-	}
-	a.active {
-		font-weight: bolder;
-		text-decoration: underline;
-	}
-</style>
